@@ -2,7 +2,7 @@ CC = gcc
 
 #-O0 do not optimize the generated code
 #-g3 compile with debug information
-CFLAGS = -O0 -g3
+CFLAGS = -O0 -g3 -m32
 
 SRC = undead_code.c
 

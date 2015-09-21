@@ -16,7 +16,7 @@ void segment_fault_handler(int signum)
 {
 	printf("I am slain!\n");
 	int* eip = (((char*)&signum) - sizeof(char*));
-	*eip = 0x80484a6;
+	*eip = 0x8048447;
 	//Use the signnum to construct a pointer to flag on stored stack
 	//Increment pointer down to the stored PC
 	//Increment value at pointer by length of bad instruction
