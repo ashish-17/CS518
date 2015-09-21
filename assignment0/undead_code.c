@@ -15,14 +15,12 @@
 void segment_fault_handler(int signum)
 {
 	printf("I am slain!\n");
-	int* eip = (((char*)&signum) - sizeof(char*));
-	*eip = 0x8048447;
-	//Use the signnum to construct a pointer to flag on stored stack
-	//Increment pointer down to the stored PC
-	//Increment value at pointer by length of bad instruction
 
-	
-	
+	//Find the location of instruction pointer/Program counter with respect to function args on stack
+	int* eip = (((char*)&signum) - sizeof(char*));
+
+	//Set the instuction pointer to the address of the next instruction in main()
+	*eip = 0x8048447;
 }
 
 
