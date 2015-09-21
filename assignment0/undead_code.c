@@ -28,7 +28,7 @@ void segment_fault_handler(int signum)
 	int* PC2 = getOldPC(7);
 
 	// Calculate the number of bytes to jump to get to the desired instruction.
-	int bytes_to_jump = 103;
+	int bytes_to_jump = 97;
 
 	// Overwrite the program counter value.
 	*PC1 = (char*)*PC2 + bytes_to_jump;
