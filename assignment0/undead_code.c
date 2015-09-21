@@ -12,17 +12,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int* getOldPC(int);
+
 void segment_fault_handler(int signum)
 {
 	printf("I am slain!\n");
 
 	//Find the location of instruction pointer/Program counter with respect to function args on stack
-	int* eip = (((char*)&signum) - sizeof(char*));
+	//This is the address of Instruction pointer which points to some code in kernel signal return handler...
+	//We need to change the value at this address to point to desired instruction in out code space.
+	int* PC1 = (((char*)&signum) - sizeof(char*));
 
-	//Set the instuction pointer to the address of the next instruction in main()
-	*eip = 0x8048447;
+	//Create dummy function call to get the address of program counter in our code which points to a code segment in this function.
+	//We can move this value to the desired instuction we want by adding an offset.
+	int* PC2 = getOldPC(7);
+
+	// Calculate the number of bytes to jump to get to the desired instruction.
+	int bytes_to_jump = 103;
+
+	// Overwrite the program counter value.
+	*PC1 = (char*)*PC2 + bytes_to_jump;
 }
 
+int* getOldPC(int dummy)
+{
+	int *PC = (((char*)&dummy) - sizeof(char*));
+	return PC;
+}
 
 int main()
 {
